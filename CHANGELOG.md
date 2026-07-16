@@ -31,6 +31,8 @@ First public release. Unifies four projects into one full-cycle Godot game-dev a
   from one set of `SKILL.md` files.
 - **Docs** — architecture, workflow, style-lock, self-evolving, dual-runtime, and two deployment
   guides; bilingual (EN + 中文) README.
+- **Visual identity** — dark neon-tech pixel-art hero banner + a style-lock explainer, generated
+  by the repo's own `tools/make_banner.py` / `tools/make_stylelock.py` (SVG source + rendered PNG).
 - **Example** — `examples/ember-and-ink` (papercut-wuxia) with a real, runnable Style Contract.
 
 ### License
