@@ -33,3 +33,6 @@ desktop.ini
 .godot/
 *.import
 export_presets.cfg
+
+# session handoff (local only)
+WORKSPACE.md
