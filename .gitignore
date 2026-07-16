@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# VFX pipeline heavy outputs (regenerate; don't commit batch runs)
+pipelines/vfx/godot_package/vfx/p1/
+pipelines/vfx/godot_package/vfx/p2/
+pipelines/vfx/godot_package/vfx/p3/
+pipelines/vfx/**/adiff_*/
+*.ckpt
+*.safetensors
+hf_cache/
+
+# Reference-study: NEVER commit third-party extracted material (learning-only, local-only)
+pipelines/unpack/_work/
+**/reference-material/
+**/_ref_extracted/
+
+# Per-project runtime state
+.gat/*.local.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# Godot (in downstream game repos)
+.godot/
+*.import
+export_presets.cfg

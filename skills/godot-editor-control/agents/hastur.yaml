@@ -1,0 +1,55 @@
+# agents/hastur.yaml — connection + behavior config for godot-editor-control
+#
+# Single place to tune how the skill talks to the Hastur broker. gop.py reads
+# live config from CLI flags / env / .hastur.json (see references/install.md);
+# this file documents the defaults + the operation vocabulary for agents.
+
+broker:
+  base_url: http://localhost:5302      # Hastur broker HTTP (default)
+  tcp_port: 5301                        # broker<->editor relay (informational)
+  auth: bearer                          # Authorization: Bearer <token>
+  token_source: ".hastur.json | $HASTUR_AUTH_TOKEN | --token"  # printed by broker at startup
+  health_path: /api/health
+  executors_path: /api/executors
+  execute_path: /api/execute
+
+client:
+  script: scripts/gop.py
+  python: C:/Users/User/AppData/Local/Programs/Python/Python312/python.exe
+  deps: stdlib-only                     # urllib; no third-party packages
+  exit_codes: {ok: 0, op_or_run_failed: 1, http_or_auth_failed: 2}
+
+targeting:                              # pick exactly one, this priority order
+  - executor_id                         # exact, from `executors`
+  - project_name                        # fuzzy
+  - project_path                        # fuzzy
+  type_filter: [editor, game]           # optional --type
+
+execution:
+  mode: full-class                      # ops use `extends` + func execute(executeContext)
+  reason: avoids the auto-wrap tab/space indent pitfall of snippet mode
+  output_api: 'executeContext.output(key, value)'   # -> data.outputs [[k,v],...]
+  editor_handle: 'executeContext.editor_plugin.get_editor_interface()'
+
+# Operation templates live in gdscript/ops/<name>.gd (params are {{tokens}}).
+# `gop.py op --list` enumerates them from gdscript/ops/manifest.json.
+operations:
+  tree:              dump current edited scene tree
+  open_scene:        {path}
+  add_node:          {type, name, parent}
+  set_prop:          {node, property, value}        # value = raw GDScript expr
+  attach_script:     {node, script}
+  save_scene:        {}
+  play:              {}
+  get_setting:       {key}
+  set_setting:       {key, value}                   # value = raw GDScript expr
+  instantiate_scene: {scene, parent, name}
+
+testing:
+  mock_broker: scripts/mock_broker.py               # offline test double of the HTTP contract
+  dry_run: 'gop.py op <name> --set ... --dry-run'   # render GDScript without sending
+
+security:
+  bind: localhost-only                  # the plugin executes ARBITRARY GDScript in the editor
+  token: treat-as-password
+  gitignore: ".hastur.json"

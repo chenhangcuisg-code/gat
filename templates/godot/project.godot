@@ -1,0 +1,20 @@
+; GAT reference Godot 4.x project skeleton — copied & customized by /gat-scaffold.
+; Fill {{GAME_NAME}} and adjust autoloads to the game's systems.
+config_version=5
+
+[application]
+config/name="{{GAME_NAME}}"
+config/features=PackedStringArray("4.3", "Forward Plus")
+run/main_scene="res://scenes/main.tscn"
+
+[autoload]
+; Core singletons — the module framework GAT scaffolds (see knowledge/architecture/macro-design.md)
+EventBus="*res://autoload/event_bus.gd"     ; decouple modules; reference by id, pass DTO copies
+GameState="*res://autoload/game_state.gd"   ; runtime state
+DataDB="*res://autoload/data_db.gd"         ; loads data/*.json (data-driven content)
+SaveSystem="*res://autoload/save_system.gd" ; numbered slots + a dedicated TEST slot
+
+[gat]
+; GAT bookkeeping (read by /gat-verify)
+save/test_slot=5
+save/protected_slots=[1,2,3,4,"autosave","meta"]

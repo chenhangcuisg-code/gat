@@ -1,0 +1,19 @@
+{
+  "tree":             {"desc": "dump the currently edited scene tree", "params": {}},
+  "open_scene":       {"desc": "open a scene in the editor",
+                       "params": {"path": "res://ui/Main.tscn"}},
+  "add_node":         {"desc": "add a node under a parent (owner=scene root)",
+                       "params": {"type": "Sprite2D", "name": "Hero", "parent": "."}},
+  "set_prop":         {"desc": "set a property on a node (value = raw GDScript)",
+                       "params": {"node": "Hero", "property": "position", "value": "Vector2(120,80)"}},
+  "attach_script":    {"desc": "attach a script resource to a node",
+                       "params": {"node": "Hero", "script": "res://hero.gd"}},
+  "save_scene":       {"desc": "save the current scene", "params": {}},
+  "play":             {"desc": "run the project main scene", "params": {}},
+  "get_setting":      {"desc": "read a ProjectSettings value",
+                       "params": {"key": "application/config/name"}},
+  "set_setting":      {"desc": "set + persist a ProjectSettings value (value = raw GDScript)",
+                       "params": {"key": "application/config/name", "value": "\"修仙放置 · Godot\""}},
+  "instantiate_scene":{"desc": "instance a packed scene under a parent",
+                       "params": {"scene": "res://ui/Hud.tscn", "parent": ".", "name": "Hud"}}
+}

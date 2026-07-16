@@ -1,0 +1,60 @@
+version: 1
+locked: true
+project: "Ember and Ink"
+established_from: "design/art/art-direction.md"
+established_at: "2026-07-16"
+
+identity:
+  one_liner: "Papercut wuxia — flat ink silhouettes on warm rice-paper, single vermilion accent."
+  mood: ["quiet", "elegant", "restrained"]
+  era_culture: "Song-dynasty ink painting, minimalist"
+
+palette:
+  primary:   ["#1A1712", "#F2E9D8"]
+  accent:    ["#C1332B"]
+  secondary: ["#6B7C6E", "#8A6D3B"]
+  forbidden: ["neon", "pure #0000FF", "gradients >3 stops", "photoreal skin"]
+  tolerance_deltaE: 24
+
+rendering:
+  resolution: "512x512"
+  view: "3/4 top-down"
+  outline: "none"
+  shading: "flat 2-tone, hard cut shadow"
+  linework: "torn-paper edges, no anti-alias fuzz"
+  background: "transparent"
+
+prompt_contract:
+  positive_prefix: "flat papercut illustration, Song-dynasty ink-painting aesthetic,"
+  positive_suffix: ", torn rice-paper texture, single vermilion accent, hard 2-tone flat shading, no gradient, no photorealism, centered, clean silhouette, game asset"
+  style_anchor_phrases:
+    - "flat papercut illustration"
+    - "Song-dynasty ink"
+    - "single vermilion accent"
+  negative: "3d render, photorealistic, glossy, neon, lens flare, drop shadow, watermark, text, signature, extra colors, gradient background, blurry, jpeg artifacts"
+  reference_images:
+    - "design/art/refs/hero_master.png"
+
+model:
+  backend: "gpt-image-2"
+  size: "1024x1024"
+  params: { quality: "high", n: 1 }
+  seed_strategy: "fixed-per-family"
+  base_seed: 73019
+
+categories:
+  icon:      { rendering: { resolution: "256x256", view: "flat front" } }
+  character: { rendering: { view: "side", resolution: "512x768" } }
+  vfx:       { rendering: { background: "pure black (luminance-key)" }, model: { backend: "flux" } }
+  tileset:   { rendering: { resolution: "128x128" }, prompt_contract: { positive_suffix: ", seamless tileable, single vermilion accent, flat papercut illustration, Song-dynasty ink" } }
+
+enforcement:
+  audit_script: "tools/art_audit.py"
+  checks: [resolution_exact, palette_within_tolerance, background_correct]
+  on_fail: "regenerate"
+
+revisions:
+  - version: 1
+    at: "2026-07-16"
+    by: "gat-style-lock"
+    rationale: "Initial lock from art-direction.md after brainstorm."

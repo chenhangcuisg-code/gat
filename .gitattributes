@@ -1,0 +1,13 @@
+# Keep scripts LF so they run on Linux/macOS regardless of the authoring OS.
+*.sh   text eol=lf
+*.py   text eol=lf
+*.gd   text eol=lf
+# Let git normalize the rest.
+*.md   text
+*.yaml text
+*.yml  text
+*.json text
+# Binary assets — never touch line endings.
+*.png  binary
+*.gif  binary
+*.tres binary

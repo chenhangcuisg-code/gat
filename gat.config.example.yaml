@@ -1,0 +1,39 @@
+# gat.config.yaml — per-game GAT configuration (copy to your game repo root, edit, drop .example)
+# Everything here is optional; skills fall back to sensible defaults.
+
+project:
+  name: "My Game"
+  engine: "godot4"                 # godot4 (tested 4.6.2 / 4.7)
+  paradigm: "auto"                 # auto | ddd | data-driven | prototype  (see knowledge/architecture)
+
+# ---- style-lock: where the frozen art contract lives ----
+style:
+  contract: "design/art/style-contract.yaml"   # produced by /gat-style-lock
+  enforce_in_ci: true               # run tools/art_audit.py over assets/ on commit/CI
+
+# ---- save-slot discipline: verification must never touch player progress ----
+saves:
+  test_slot: 5                      # /gat-implement and /gat-verify only ever write here
+  protected_slots: [1, 2, 3, 4, "autosave", "meta"]
+
+# ---- live Godot editor control (optional) ----
+godot:
+  hastur_broker: "http://127.0.0.1:5302"   # Hastur Operation Plugin; see docs/deployment/godot-hastur.md
+  respect_open_editor: true         # prefer smoke/targeted ops; never headless --import while editor open
+
+# ---- VFX generation backend (optional; only if you use /gat-vfx) ----
+vfx:
+  gpu:                              # where the diffusion pipeline runs; see docs/deployment/vfx-gpu-server.md
+    ssh_alias: ""                   # e.g. "gpu-a100"  (blank = run locally)
+    remote_workspace: ""            # e.g. "/data/games/my-game"
+    hf_endpoint: "https://hf-mirror.com"   # if HuggingFace is blocked in your region
+  default_pipeline: "p2"            # p2 (FLUX+procedural, default) | p1 (AnimateDiff) | p3 (SDXL-ctrl)
+
+# ---- static art backend (optional; only if you use /gat-asset) ----
+assets:
+  backend: "gpt-image-2"            # gpt-image-2 | flux | sdxl
+
+# ---- self-evolving memory ----
+knowledge:
+  project_journal: ".gat/journal.md"
+  toolkit_wiki: "knowledge/wiki"    # shared across all games using this GAT install

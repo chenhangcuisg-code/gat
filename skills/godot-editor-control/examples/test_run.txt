@@ -1,0 +1,102 @@
+==== godot-editor-control · client vs mock broker (port 5399) ====
+
+## health
+[HTTP 200] {"status": "ok", "uptime": 1}
+
+## executors
+[
+  {
+    "id": "ed-0001",
+    "type": "editor",
+    "project_name": "修仙放置 · Godot",
+    "project_path": "C:/Users/User/idle-engines/xiuxian-godot",
+    "connected": true
+  },
+  {
+    "id": "gm-0002",
+    "type": "game",
+    "project_name": "修仙放置 · Godot",
+    "project_path": "C:/Users/User/idle-engines/xiuxian-godot",
+    "connected": true
+  }
+]
+
+## op --list
+  add_node           add a node under a parent (owner=scene root)
+      params: name=Hero  parent=.  type=Sprite2D
+  attach_script      attach a script resource to a node
+      params: node=Hero  script=res://hero.gd
+  get_setting        read a ProjectSettings value
+      params: key=application/config/name
+  instantiate_scene  instance a packed scene under a parent
+      params: name=Hud  parent=.  scene=res://ui/Hud.tscn
+  open_scene         open a scene in the editor
+      params: path=res://ui/Main.tscn
+  play               run the project main scene
+  save_scene         save the current scene
+  set_prop           set a property on a node (value = raw GDScript)
+      params: node=Hero  property=position  value=Vector2(120,80)
+  set_setting        set + persist a ProjectSettings value (value = raw GDScript)
+      params: key=application/config/name  value="修仙放置 · Godot"
+  tree               dump the currently edited scene tree
+
+## op add_node (exec)
+compile: OK    run: OK    (request_id mock-0001)
+  outputs:
+    error = <sim:"no scene is open in the editor">
+    error = <sim:"parent not found: .">
+    error = <sim:"unknown class: Sprite2D">
+    added = <sim:str(root.get_path_to(n))>
+    class = <sim:"Sprite2D">
+
+## op get_setting (exec)
+compile: OK    run: OK    (request_id mock-0001)
+  outputs:
+    key = <sim:"application/config/name">
+    exists = <sim:str(has)>
+    value = <sim:str(ProjectSettings.get_setting("applica>
+
+## op instantiate_scene --dry-run
+# ---- GDScript that would be sent ----
+@tool
+extends RefCounted
+# instantiate_scene — instance packed scene "res://ui/Hud.tscn" under "." as "Hud"
+
+func execute(executeContext):
+	var ei = executeContext.editor_plugin.get_editor_interface()
+	var root = ei.get_edited_scene_root()
+	if root == null:
+		executeContext.output("error", "no scene is open")
+		return
+	if not ResourceLoader.exists("res://ui/Hud.tscn"):
+		executeContext.output("error", "scene not found: res://ui/Hud.tscn")
+		return
+	var parent = root if "." == "." else root.get_node_or_null(".")
+	if parent == null:
+		executeContext.output("error", "parent not found: .")
+		return
+	var inst = load("res://ui/Hud.tscn").instantiate()
+	inst.name = "Hud"
+	parent.add_child(inst)
+	inst.owner = root
+	executeContext.output("instanced", str(root.get_path_to(inst)))
+
+# ---- target ----
+{}
+
+==== error/edge paths ====
+## wrong token (expect 401, exit 2)
+[HTTP 401] {'success': False, 'error': 'unauthorized'}
+exit=2
+## python-ism (expect compile FAIL, exit 1)
+compile: FAIL    run: FAIL    (request_id mock-0001)
+  compile_error: Parse error: looks like Python, not GDScript (def/True/False/None/print kwargs)
+exit=1
+## missing target (expect ASCII error, exit 1)
+error: no target - pass --executor-id / --project-name / --project-path (or set one in .hastur.json)
+exit=1
+## broker down (expect friendly error)
+error: cannot reach broker http://127.0.0.1:5999/api/health: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+  is the broker running?  cd broker-server && npm run dev
+exit=1
+DONE

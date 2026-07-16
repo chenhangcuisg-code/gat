@@ -1,0 +1,26 @@
+[gd_resource type="SpriteFrames" load_steps=17 format=3]
+
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_00.png" id="1_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_01.png" id="2_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_02.png" id="3_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_03.png" id="4_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_04.png" id="5_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_05.png" id="6_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_06.png" id="7_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_07.png" id="8_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_08.png" id="9_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_09.png" id="10_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_10.png" id="11_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_11.png" id="12_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_12.png" id="13_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_13.png" id="14_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_14.png" id="15_f"]
+[ext_resource type="Texture2D" path="res://vfx/inkglow/ink_jianbo/ink_jianbo_15.png" id="16_f"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("1_f")}, {"duration": 1.0, "texture": ExtResource("2_f")}, {"duration": 1.0, "texture": ExtResource("3_f")}, {"duration": 1.0, "texture": ExtResource("4_f")}, {"duration": 1.0, "texture": ExtResource("5_f")}, {"duration": 1.0, "texture": ExtResource("6_f")}, {"duration": 1.0, "texture": ExtResource("7_f")}, {"duration": 1.0, "texture": ExtResource("8_f")}, {"duration": 1.0, "texture": ExtResource("9_f")}, {"duration": 1.0, "texture": ExtResource("10_f")}, {"duration": 1.0, "texture": ExtResource("11_f")}, {"duration": 1.0, "texture": ExtResource("12_f")}, {"duration": 1.0, "texture": ExtResource("13_f")}, {"duration": 1.0, "texture": ExtResource("14_f")}, {"duration": 1.0, "texture": ExtResource("15_f")}, {"duration": 1.0, "texture": ExtResource("16_f")}],
+"loop": true,
+"name": &"ink_jianbo",
+"speed": 14.0
+}]
