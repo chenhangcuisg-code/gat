@@ -17,7 +17,7 @@ workflow. These rules apply to every role and skill.
 
 ## Non-negotiables
 1. **Style-lock discipline.** No asset is generated without a locked `design/art/style-contract.yaml`. Every asset composes its prompt via `tools/style_prompt.py` (subject only) and passes `tools/art_audit.py`. Off-style output is regenerated, never shipped. Change a locked style only via `/gat-style-lock --relock`.
-2. **Design-grounded implementation.** Read the GDD + the matching `knowledge/architecture/*` reference before coding. Clarify ambiguous design instead of improvising gameplay.
+2. **Design-grounded implementation.** Read the GDD + the matching architecture reference before coding. Architecture knowledge loads on demand: universal `knowledge/architecture/core/` is always active; system-specific `modules/` are activated per game into `.gat/architecture.md` by `/gat-scaffold` (add more with `tools/arch_init.py --add`). Read `.gat/architecture.md` to see what's live. Clarify ambiguous design instead of improvising gameplay.
 3. **One milestone at a time.** Never balloon scope; note deferrals.
 4. **Honest verification.** "Done" = it ran, numbers hold (from the sim, not feel), assets exist and match the style, design is covered — with evidence. Never claim a feature works without running it. If you skipped a check, say so.
 5. **Change-tolerant architecture.** Content in `data/*.json`, logic in code, art registered; reference by id, pass DTO copies, decouple via EventBus (`knowledge/architecture/evolution.md`).
@@ -27,8 +27,14 @@ workflow. These rules apply to every role and skill.
 
 ## Working style
 - Keep design docs concise and implementation-facing; update existing files over creating variants.
-- Use `.claude/docs/templates/*` / `templates/*` as the canonical scaffolds.
+- Use `$GAT_HOME/templates/*` as the canonical doc/code scaffolds.
 - When in doubt about the next step, run `/gat-workflow-start`.
+
+## Toolkit path resolution (the standard — see `skills/README.md`)
+- Toolkit resources (`tools/`, `knowledge/`, `templates/`, `pipelines/`) live at **`$GAT_HOME`**,
+  recorded in `.gat/gat.env` (`set -a; . .gat/gat.env; set +a`). Reference them as `$GAT_HOME/…`.
+- Game content (`design/`, `data/`, `assets/`, `.gat/`, code) is **game-repo-relative** (the CWD).
+- A bare `tools/x.py` in a skill is shorthand for `$GAT_HOME/tools/x.py`.
 
 ## Knowledge index
 - Architecture references: `knowledge/architecture/_ARCHITECT-INDEX.md`

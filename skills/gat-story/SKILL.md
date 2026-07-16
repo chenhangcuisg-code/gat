@@ -153,11 +153,11 @@ structure, delivery, scope, and open questions. Ask:
 
 If yes, read the relevant templates:
 
-- `.claude/docs/templates/design/narrative-story.md`
-- `.claude/docs/templates/design/narrative-world.md`
-- `.claude/docs/templates/design/narrative-characters.md`
-- `.claude/docs/templates/design/narrative-quests.md`
-- `.claude/docs/templates/design/narrative-dialogue.md`
+- `templates/design/narrative-story.md`
+- `templates/design/narrative-world.md`
+- `templates/design/narrative-characters.md`
+- `templates/design/narrative-quests.md`
+- `templates/design/narrative-dialogue.md`
 
 Spawn `gat-writer` to write the narrative docs under `design/narrative/`.
 

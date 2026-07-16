@@ -21,9 +21,11 @@ scope explodes and verification becomes impossible.
 - The target milestone in `production/milestone.md`
 - The relevant `design/gdd/<system>.md` (rules + data structures) and
   `design/content/<system>-data.md` (instances)
-- The architecture reference for that system, e.g.
-  `knowledge/architecture/system-skill.md`, `system-action-combat.md`, `system-ui.md`,
-  `system-game-ai.md`, `system-pcg.md`, `system-narrative.md` (read the one that matches)
+- **`.gat/architecture.md`** — this game's *active* architecture index (resolved by
+  `/gat-scaffold`). Read the module it lists for the system you're building, e.g.
+  `knowledge/architecture/modules/system-skill.md`, `modules/system-action-combat.md`,
+  `modules/system-ui.md`, `modules/system-game-ai.md`, … If the module you need isn't active yet,
+  add it: `python tools/arch_init.py --add modules/system-<name>.md --out .gat/architecture.md`.
 - The project's paradigm decision (from `/gat-scaffold`, in `.gat/journal.md`)
 
 ## Procedure

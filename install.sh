@@ -59,11 +59,16 @@ following the GAT working rules at \`$GAT_HOME/runtimes/claude/RULES.md\`.
 Arguments: \$ARGUMENTS
 EOF
   done
-  echo "  wrote $(ls "$GAT_HOME"/skills | wc -l | tr -d ' ') prompts to $pdir"
+  echo "  wrote $(ls -d "$GAT_HOME"/skills/*/ | wc -l | tr -d ' ') prompts to $pdir"
 }
 
-# per-project self-evolving journal
+# per-project state: toolkit pointer + self-evolving journals
 mkdir -p "$TARGET/.gat"
+# gat.env — the STANDARD way skills resolve the toolkit root from inside a game repo.
+{ echo "# GAT toolkit pointer (written by install). Source it: set -a; . .gat/gat.env; set +a"
+  echo "GAT_HOME=\"$GAT_HOME\""; } > "$TARGET/.gat/gat.env"
+# gat.env is machine-specific; keep it out of the game repo's git
+grep -qxF '.gat/gat.env' "$TARGET/.gitignore" 2>/dev/null || echo '.gat/gat.env' >> "$TARGET/.gitignore"
 [ -f "$TARGET/.gat/journal.md" ] || printf '# %s — GAT project journal\n\n_Per-game memory. Paradigm choices, balance bands, conventions, open questions._\n' "$(basename "$TARGET")" > "$TARGET/.gat/journal.md"
 [ -f "$TARGET/.gat/decisions.md" ] || printf '# %s — decisions log\n\n' "$(basename "$TARGET")" > "$TARGET/.gat/decisions.md"
 

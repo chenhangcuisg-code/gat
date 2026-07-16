@@ -12,14 +12,31 @@ Request: $ARGUMENTS
 Creates the engine-side skeleton so `/gat-implement` has a real project to build into. This
 is the bridge from GAT's document world (`design/`, `production/`) to a running Godot project.
 
-Read from the knowledge base before deciding structure:
-- `knowledge/architecture/project-structure.md` — folder layout
-- `knowledge/architecture/macro-design.md` + `principles.md` — module framework
-- `knowledge/architecture/data-driven-design.md` / `domain-driven-design.md` — paradigm choice
-- `knowledge/architecture/asset-conventions.md` — asset registry + data isolation
-- `knowledge/architecture/data-files.md` — config/data formats
+Read from the knowledge base before deciding structure (paths under `knowledge/architecture/core/`):
+- `core/project-structure.md` — folder layout
+- `core/macro-design.md` + `core/principles.md` — module framework
+- `core/data-driven-design.md` / `core/domain-driven-design.md` — paradigm choice
+- `core/asset-conventions.md` — asset registry + data isolation
+- `core/data-files.md` — config/data formats
+
+These 10 `core/` references are universal and always active. System-specific references
+(`modules/*`) are pulled in on demand — you set that up in step 0 below.
 
 ## Procedure
+
+0. **Initialize the architecture knowledge for THIS game.** Don't carry all 34 references —
+   activate only what this game needs. From `design/gdd/systems-index.md` (and `gat.config.yaml`),
+   list the game's systems (skill, combat, ai, narrative, pcg, mod, …) and flags (multiplayer +
+   style, performance_critical, shipping), then (`$GAT_HOME` = toolkit path from `.gat/gat.env`):
+   ```bash
+   set -a; . .gat/gat.env; set +a           # resolve $GAT_HOME (once per shell)
+   python "$GAT_HOME/tools/arch_init.py" --systems <comma-list> --flags <comma-list> \
+       --multiplayer <none|room|encounter|world|lockstep|rollback> \
+       --gat-home-rel "$GAT_HOME" --out .gat/architecture.md
+   ```
+   For a bare prototype use `--minimal` (core only). This writes `.gat/architecture.md`, the
+   active index every downstream skill reads. See `knowledge/architecture/catalog.yaml` and
+   `_ARCHITECT-INDEX.md`. Re-run (or `--add modules/<file>.md`) when systems change.
 
 1. **Read the design.** `design/gdd/game.md`, `systems-index.md`, and `production/milestone.md`.
    Understand the systems and their order.

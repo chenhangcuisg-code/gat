@@ -158,9 +158,9 @@ and visual direction. Ask:
 > Options: `Yes, write them` / `Let me keep discussing`
 
 If yes, read templates:
-- `.claude/docs/templates/design/game-overview.md`
-- `.claude/docs/templates/design/systems-index.md`
-- `.claude/docs/templates/design/global-art.md`
+- `templates/design/game-overview.md`
+- `templates/design/systems-index.md`
+- `templates/design/global-art.md`
 
 **Step 1** — Spawn `gat-designer` to write both foundational design files in one pass:
 - `design/gdd/game.md`

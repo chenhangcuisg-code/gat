@@ -60,8 +60,16 @@ Arguments: `$ARGUMENTS
   Write-Host "  wrote $n prompts to $pdir"
 }
 
-# per-project self-evolving journal
+# per-project state: toolkit pointer + self-evolving journals
 New-Item -ItemType Directory -Force -Path "$Target\.gat" | Out-Null
+# gat.env — the STANDARD way skills resolve the toolkit root from inside a game repo.
+"# GAT toolkit pointer (written by install).`nGAT_HOME=""$GatHome""" |
+  Set-Content "$Target\.gat\gat.env" -Encoding utf8
+# gat.env is machine-specific; keep it out of the game repo's git
+$gi = "$Target\.gitignore"
+if (-not ((Test-Path $gi) -and (Select-String -Path $gi -SimpleMatch '.gat/gat.env' -Quiet))) {
+  Add-Content -Path $gi -Encoding utf8 -Value '.gat/gat.env'
+}
 if (-not (Test-Path "$Target\.gat\journal.md")) {
   "# $(Split-Path $Target -Leaf) - GAT project journal`n`n_Per-game memory. Paradigm choices, balance bands, conventions, open questions._" |
     Set-Content "$Target\.gat\journal.md" -Encoding utf8

@@ -35,7 +35,7 @@ Read:
 - all existing `design/narrative/*.md`
 - `design/art/art-direction.md`
 - all existing `design/art/*-art.md`
-- `.claude/docs/templates/plan/milestone.md`
+- `templates/plan/milestone.md`
 - `production/milestone.md` if exists
 
 ## Phase 2: Hand Off To The Planner

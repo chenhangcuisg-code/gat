@@ -23,6 +23,13 @@ First public release. Unifies four projects into one full-cycle Godot game-dev a
 - **Implementation** — `gat-scaffold` + `gat-implement` build into Godot, driving a live editor
   via the vendored `godot-editor-control` (Hastur) skill; grounded in the `game-architect`
   knowledge base (`knowledge/architecture/`, 34 references).
+- **On-demand architecture knowledge** — the 34 references are split into universal `core/`
+  (always active, 10) + `modules/` (23, added per game). `catalog.yaml` + `tools/arch_init.py`
+  resolve a game's systems/flags into a per-game `.gat/architecture.md` active index, so the agent
+  carries only relevant refs (~20 for a typical RPG, 10 for a `--minimal` prototype).
+- **Standard skill install & path resolution** — `skills/README.md` defines the skill contract;
+  the installer writes `.gat/gat.env` (`$GAT_HOME`) so skills resolve toolkit resources
+  (`tools/`, `knowledge/`, `templates/`) from any game repo, with game content kept repo-relative.
 - **Verification** — `gat-verify` (runtime smoke + balance sim + style audit + design coverage).
 - **⭐ Self-evolving** — `gat-evolve` (read-before/write-after loop; toolkit `knowledge/wiki/` +
   per-game `.gat/journal.md`; proposes but never silently applies skill changes) and

@@ -32,9 +32,9 @@ With `game.md`, `systems-index.md`, and `art-direction.md` present, assess compl
 
 Read templates:
 
-- `.claude/docs/templates/design/system-gdd.md`
-- `.claude/docs/templates/design/system-art.md`
-- `.claude/docs/templates/design/content-data.md`
+- `templates/design/system-gdd.md`
+- `templates/design/system-art.md`
+- `templates/design/content-data.md`
 
 Also read existing `design/narrative/*.md` when present and pass relevant narrative context to spawned agents. Do not create or rewrite narrative docs here; use `/gat-story` for that.
 
@@ -68,6 +68,15 @@ Spawn `gat-artist` → `design/art/<system>-art.md`:
 ### System mode
 
 Require `design/gdd/game.md` and `design/gdd/systems-index.md`.
+
+**Step 0 — Activate architecture knowledge for the new system.** If the project has been
+scaffolded (`.gat/architecture.md` exists) and the catalog maps this system
+(`knowledge/architecture/catalog.yaml` `by_system`), add its module(s) so implementation stays
+grounded (`$GAT_HOME` = the toolkit path from `.gat/gat.env`):
+```bash
+python "$GAT_HOME/tools/arch_init.py" --add modules/system-<name>.md --out .gat/architecture.md
+```
+(Skip silently if not yet scaffolded — `/gat-scaffold` resolves the full set later.)
 
 **Step 1** — Spawn `gat-designer` → `design/gdd/<system>.md`
 

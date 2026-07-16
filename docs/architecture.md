@@ -37,8 +37,10 @@ GAT unifies four codebases into one workflow:
 - **`gat` design pipeline** (from the game-dev-wiki) → the Design phase. This was originally a
   *pre-production-only* workflow that deliberately stopped before code. GAT keeps it and adds
   the implementation half it pointed at.
-- **`game-architect`** (30+ references) → `knowledge/architecture/`. The domain brain the
-  Engineer consults for paradigm choice and per-system design.
+- **`game-architect`** (34 references) → `knowledge/architecture/`, split into universal `core/`
+  (always active) + on-demand `modules/`. `/gat-scaffold` resolves the small set this game needs
+  into `.gat/architecture.md` (via `tools/arch_init.py`), so the Engineer consults only relevant
+  knowledge instead of all 34 refs.
 - **`game-skill-vfx`** → `pipelines/vfx/`. The FLUX/AnimateDiff/SDXL VFX pipeline, wrapped by
   `gat-vfx` and bound to the Style Contract.
 - **`godot-editor-control`** (Hastur) → `skills/godot-editor-control/`. The hands that build in a
@@ -67,7 +69,7 @@ gat/
   agents/            8 role agents (designer, writer, planner, artist, engineer, vfx-artist, qa, curator)
   skills/            13 gat-* skills (design 5 + style/asset 3 + implement 3 + evolve 2) + godot-editor-control
   knowledge/
-    architecture/    game-architect references (paradigms + per-system design)
+    architecture/    game-architect refs — core/ (always) + modules/ (on-demand) + catalog.yaml
     style/           style-contract schema + art lenses
     wiki/            self-evolving cross-project memory
   pipelines/

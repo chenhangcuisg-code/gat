@@ -6,6 +6,15 @@ project:
   engine: "godot4"                 # godot4 (tested 4.6.2 / 4.7)
   paradigm: "auto"                 # auto | ddd | data-driven | prototype  (see knowledge/architecture)
 
+# ---- architecture knowledge: what gets loaded for THIS game ----
+# /gat-scaffold feeds these to tools/arch_init.py -> .gat/architecture.md (the active index).
+# core/ is always active; only these modules are added. Keep it to what the game actually has.
+architecture:
+  systems: [skill, combat, narrative]   # from systems-index.md: skill|combat|action|ai|narrative|pcg|roguelike|mod|dlc
+  flags: [shipping]                     # shipping | performance_critical | multiplayer
+  multiplayer: none                     # none | room | encounter | world | lockstep | rollback
+  minimal: false                        # true = core only (very general), add modules on demand
+
 # ---- style-lock: where the frozen art contract lives ----
 style:
   contract: "design/art/style-contract.yaml"   # produced by /gat-style-lock

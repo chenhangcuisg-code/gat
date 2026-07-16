@@ -34,7 +34,9 @@ than as parallel subagents; the steps are the same.
 1. No asset without a locked `design/art/style-contract.yaml`; compose via
    `{{GAT_HOME}}/tools/style_prompt.py`, gate via `{{GAT_HOME}}/tools/art_audit.py`. Off-style →
    regenerate.
-2. Read the GDD + `knowledge/architecture/*` before coding. One milestone at a time.
+2. Read the GDD + architecture refs before coding. Universal `knowledge/architecture/core/` is
+   always active; system-specific `modules/` are activated per game into `.gat/architecture.md`
+   by `/gat-scaffold` (add more via `arch_init.py --add`). One milestone at a time.
 3. Honest verification: it ran, numbers from the sim, assets exist and on-style, design covered —
    with evidence. Never claim done without a run.
 4. Content in `data/*.json`, logic in code, art registered; decouple via EventBus.

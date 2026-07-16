@@ -1,0 +1,57 @@
+# GAT architecture knowledge — activation catalog.
+#
+# core/ is ALWAYS active (universal to every game). modules/ are added ON DEMAND from
+# the game's actual needs, so the agent carries a small, relevant knowledge set instead
+# of all 34 references. /gat-scaffold (via tools/arch_init.py) resolves this into a
+# per-game .gat/architecture.md "active index". Add more later with:
+#     python tools/arch_init.py --add modules/system-mod.md
+#
+# Descriptions for every entry live in _ARCHITECT-INDEX.md.
+
+core:                       # universal — every game gets these, no questions asked
+  - core/principles.md
+  - core/macro-design.md
+  - core/requirements.md
+  - core/evolution.md
+  - core/project-structure.md
+  - core/data-driven-design.md
+  - core/domain-driven-design.md
+  - core/prototype-design.md
+  - core/data-files.md
+  - core/asset-conventions.md
+
+default_modules:            # on for almost every game; skip with arch_init --minimal
+  - modules/system-foundation.md      # logs, timers, modules, events, resources, audio, input
+  - modules/system-time.md            # update loops, FSM, async, command queues
+  - modules/system-scene.md           # scene graph, spatial partitioning, loading
+  - modules/system-ui.md              # UI mgmt, MVC/MVVM, data binding
+  - modules/system-effect-feedback.md # screen shake, VFX, hit-stop, floating text
+
+by_system:                  # add when the game's systems-index.md / config declares the system
+  skill:     [modules/system-skill.md]
+  combat:    [modules/system-action-combat.md, modules/system-3c.md]
+  action:    [modules/system-3c.md]
+  ai:        [modules/system-game-ai.md]
+  npc:       [modules/system-game-ai.md]
+  narrative: [modules/system-narrative.md]
+  dialogue:  [modules/system-narrative.md]
+  pcg:       [modules/system-pcg.md, modules/algorithm.md]
+  roguelike: [modules/system-pcg.md, modules/algorithm.md]
+  mod:       [modules/system-mod.md]
+  dlc:       [modules/system-mod.md]
+
+by_flag:                    # add from gat.config.yaml flags
+  performance_critical: [modules/performance-optimization.md]
+  shipping:             [modules/distribution.md]
+  multiplayer:                          # base multiplayer set (any networked game)
+    - modules/multiplayer-overview.md
+    - modules/multiplayer-protocol.md
+    - modules/multiplayer-server-architecture.md
+    - modules/multiplayer-implementation-common.md
+
+multiplayer_style:          # only meaningful when the multiplayer flag is on
+  room:      [modules/multiplayer-implementation-room.md]
+  encounter: [modules/multiplayer-implementation-encounter.md]
+  world:     [modules/multiplayer-implementation-world.md]
+  lockstep:  [modules/multiplayer-deterministic-sync.md]
+  rollback:  [modules/multiplayer-deterministic-sync.md]

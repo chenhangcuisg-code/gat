@@ -1,127 +1,109 @@
----
-name: game-architect
-description: READ this skill when designing or planning any game system architecture — including combat, skills, AI, UI, multiplayer, narrative, or scene systems. Contains paradigm selection guides (DDD / Data-Driven / Prototype), system-specific design references, and mixing strategies. Works as a domain knowledge plugin alongside workflow skills (OpenSpec, SpecKit) or plan mode of an agent.
----
+# Architecture knowledge — index & activation model
 
-# Game Architect Skill
+Game-architecture domain knowledge: paradigm selection + per-system design references. GAT does
+**not** load all of this at once. It keeps a small universal **`core/`** always active and adds
+**`modules/`** on demand from the game's actual systems and flags.
 
-Game architecture domain knowledge reference. Provides paradigm selection, system design references for game project architecture.
+## How it's activated
 
-> [!NOTE]
-> This skill contains **domain knowledge only**, not a workflow. Pair it with a workflow skill (e.g., OpenSpec, SpecKit) or an agent's plan mode for structured design flow.
+- **`core/`** — universal to every game; always in scope (10 refs).
+- **`modules/`** — system-specific & multiplayer; added only when needed.
+- **`catalog.yaml`** — the activation rules (core / default / by_system / by_flag / multiplayer).
+- **`tools/arch_init.py`** — resolves the catalog + a game's needs into a per-game
+  **`.gat/architecture.md`** active index. Run by `/gat-scaffold`; extend with `--add` when a new
+  system appears.
 
-## Usage Modes
+```
+python tools/arch_init.py --systems skill,combat,narrative --flags shipping --out .gat/architecture.md
+python tools/arch_init.py --add modules/system-mod.md          # add one later
+python tools/arch_init.py --minimal                            # core only (very general default)
+```
 
-### With Workflow Skill (Recommended)
-
-When used with a workflow skill (e.g., OpenSpec, SpecKit) or in the plan mode of an agent, this skill serves as a domain knowledge plugin:
-
-- **During requirements/spec phases**: Consult the Paradigm Selection Guide and System-Specific References to inform architectural decisions
-- **During design/planning phases**: Use the Reference Lookup Guide below to read relevant `references/` documents
-
-### Knowledge Mode (Query)
-
-When user requests to query knowledge for game architecture, this skill provides a reference lookup guide to relevant `references/` documents based on the task.
+Read the game's `.gat/architecture.md` first — it tells you exactly which references are live.
 
 ---
 
-## Reference Lookup Guide
-
-When designing game architecture, read the relevant `references/` documents based on the task:
-
-### Architecture References
+## Core (always active — `core/`)
 
 | When | Read |
 |------|------|
-| Always (high-level structure) | `references/macro-design.md` |
-| Always (core principles) | `references/principles.md` |
-| Requirement analysis | `references/requirements.md` |
-| Choosing DDD paradigm | `references/domain-driven-design.md` |
-| Choosing Data-Driven paradigm | `references/data-driven-design.md` |
-| Choosing Prototype paradigm | `references/prototype-design.md` |
-| Evolution & extensibility review | `references/evolution.md` |
-| Performance optimization needed | `references/performance-optimization.md` |
-| Multiplayer support needed | `references/multiplayer-overview.md` |
+| Always (high-level structure) | `core/macro-design.md` |
+| Always (core principles) | `core/principles.md` |
+| Requirement analysis | `core/requirements.md` |
+| Evolution & extensibility | `core/evolution.md` |
+| Project structure & file org | `core/project-structure.md` |
+| Data formats, bundles, metadata | `core/data-files.md` |
+| Asset conventions & pipeline | `core/asset-conventions.md` |
+| Choosing DDD paradigm | `core/domain-driven-design.md` |
+| Choosing Data-Driven paradigm | `core/data-driven-design.md` |
+| Choosing Prototype paradigm | `core/prototype-design.md` |
 
-- For physical architecture design, see the Physical Architecture References table below.
-- For system-specific design, see the System-Specific References table below.
-- For multiplayer system design, see the Multiplayer References table below.
+## On-demand modules (`modules/`)
 
-Note : Only read the multiplayer references when multiplayer is needed.
+Added by `arch_init.py` when the game needs them.
 
-### Physical Architecture References
-
-| When | Read |
-|------|------|
-| Project structure & file organization | `references/project-structure.md` |
-| Data formats, processing, custom formats, bundles, metadata | `references/data-files.md` |
-| Asset conventions & pipeline | `references/asset-conventions.md` |
-| Distribution, packaging, hot update, CDN, deployment | `references/distribution.md` |
-
-### System-Specific References
-
+### Default (on for almost every game; skip with `--minimal`)
 | System Category | Reference |
 |----------------|-----------|
-| Foundation & Core (Logs, Timers, Modules, Events, Resources, Audio, Input) | `references/system-foundation.md` |
-| Time & Logic Flow (Update Loops, Async, FSM, Command Queues, Controllers) | `references/system-time.md` |
-| Combat & Scene (Scene Graphs, Spatial Partitioning, ECS/EC, Loading) | `references/system-scene.md` |
-| UI & Modules (Modules Management, MVC/MVP/MVVM, UI Management, Data Binding, Reactive) | `references/system-ui.md` |
-| Skill System (Attribute, Skill, Buff) | `references/system-skill.md` |
-| Action Combat System (HitBox, Damage, Melee, Projectiles) | `references/system-action-combat.md` |
-| Camera, Character & Controller 3C (PlayerController, Physics, Camera, Actor States) | `references/system-3c.md` |
-| Effect & Feedback System (Screen Shake, VFX, Hit-Stop, Haptics, SFX, Floating Text, UI Feedback, Orchestration) | `references/system-effect-feedback.md` |
-| Narrative System (Dialogue, Cutscenes, Story Flow) | `references/system-narrative.md` |
-| Game AI System (Movement, Pathfinding, Decision Making, Tactical) | `references/system-game-ai.md` |
-| Mod & DLC System (Plugin Architecture, Config Database, Scripting, Hooks, Extensibility) | `references/system-mod.md` |
-| Procedural Content Generation (PCG) (World/Level Generation, Roguelike, Noise, Simulation) | `references/system-pcg.md` |
-| Algorithm & Data Structures (Pathfinding, Search, Physics, Generic Solver) | `references/algorithm.md` |
+| Foundation & Core (Logs, Timers, Modules, Events, Resources, Audio, Input) | `modules/system-foundation.md` |
+| Time & Logic Flow (Update Loops, Async, FSM, Command Queues) | `modules/system-time.md` |
+| Scene (Scene Graphs, Spatial Partitioning, Loading) | `modules/system-scene.md` |
+| UI & Modules (MVC/MVP/MVVM, UI Management, Data Binding, Reactive) | `modules/system-ui.md` |
+| Effect & Feedback (Screen Shake, VFX, Hit-Stop, Floating Text, Orchestration) | `modules/system-effect-feedback.md` |
 
-### Multiplayer References
+### By system (activated when `systems-index.md` / config declares it)
+| Catalog key | System | Reference |
+|---|---|---|
+| `skill` | Skill System (Attribute, Skill, Buff) | `modules/system-skill.md` |
+| `combat` | Action Combat (HitBox, Damage, Melee, Projectiles) | `modules/system-action-combat.md` (+ `system-3c.md`) |
+| `action` | Camera/Character/Controller 3C | `modules/system-3c.md` |
+| `ai` / `npc` | Game AI (Movement, Pathfinding, Decision, Tactical) | `modules/system-game-ai.md` |
+| `narrative` / `dialogue` | Narrative (Dialogue, Cutscenes, Story Flow) | `modules/system-narrative.md` |
+| `pcg` / `roguelike` | Procedural Content Generation | `modules/system-pcg.md` (+ `algorithm.md`) |
+| `mod` / `dlc` | Mod & DLC (Plugin, Config DB, Scripting, Hooks) | `modules/system-mod.md` |
+| — | Algorithms & Data Structures (Pathfinding, Search, Solver) | `modules/algorithm.md` |
 
-| Focus | Reference | Use When |
-|------|------|------|
-| Multiplayer overview | `references/multiplayer-overview.md` | Decide client/server responsibility, authority split, and gameplay sync style |
-| Multiplayer protocol and connection | `references/multiplayer-protocol.md` | Design messages, serialization, Req/Resp/Notify, heartbeat, reconnect |
-| Multiplayer server architecture | `references/multiplayer-server-architecture.md` | Design ownership boundaries, process roles, deployment, persistence, recovery |
-| Common server components and services | `references/multiplayer-implementation-common.md` | Build shared infrastructure such as auth, gateway, connector, db, cache, discovery, queue, observability |
-| Room server build playbook | `references/multiplayer-implementation-room.md` | Build a concrete small-to-medium room-based realtime server with join flow, room ownership, settlement, reconnect |
-| Encounter server build playbook | `references/multiplayer-implementation-encounter.md` | Build a concrete turn-based or combat-workflow server with checkpointing, idempotent actions, settlement |
-| Persistent world server build playbook | `references/multiplayer-implementation-world.md` | Build a concrete AOI world server with region ownership, transfer, location registry, reconnect |
-| Deterministic sync, lockstep, and rollback | `references/multiplayer-deterministic-sync.md` | Design deterministic input-sync architectures, frame pipelines, rollback, replay, and desync handling |
+### By flag
+| Flag | Reference |
+|------|-----------|
+| `performance_critical` | `modules/performance-optimization.md` |
+| `shipping` | `modules/distribution.md` |
+| `multiplayer` | `modules/multiplayer-overview.md`, `-protocol.md`, `-server-architecture.md`, `-implementation-common.md` |
+
+### Multiplayer style (only when `multiplayer` is on)
+| Style | Reference |
+|------|-----------|
+| `room` | `modules/multiplayer-implementation-room.md` |
+| `encounter` | `modules/multiplayer-implementation-encounter.md` |
+| `world` | `modules/multiplayer-implementation-world.md` |
+| `lockstep` / `rollback` | `modules/multiplayer-deterministic-sync.md` |
+
 ---
 
 ## Paradigm Selection Guide
 
-| Paradigm | KeyPoint | Applicability Scope | Examples | Reference |
+| Paradigm | KeyPoint | Applicability | Examples | Reference |
 | :--- | :--- | :--- | :--- | :--- |
-| **Domain-Driven Design (DDD)** | OOP & Entity First | High Rule Complexity. <br> Rich Domain Concepts. <br> Many Distinct Entities. | Core Combat Logic, Physics Interactions, Damage/Buff Rules, Complex AI Decision. | `references/domain-driven-design.md` |
-| **Data-Driven Design** | Data Layer First | High Content Complexity. <br>  Flow Orchestration. <br> Simple Data Management. | **Content**:  Quests, Level Design.<br>**Flow**: Tutorial Flow, Skill Execution, Narrative.<br>**Mgmt**: Inventory, Shop, Mail, Leaderboard. | `references/data-driven-design.md` |
-| **Use-Case Driven Prototype** | Use-Case Implementation First | Rapid Validation | Game Jam, Core Mechanic Testing. | `references/prototype-design.md` |
+| **Domain-Driven (DDD)** | OOP & Entity First | High rule complexity, rich domain, many entities | Combat logic, physics, damage/buff rules, complex AI | `core/domain-driven-design.md` |
+| **Data-Driven** | Data Layer First | High content complexity, flow orchestration, simple mgmt | Quests, levels, skill execution, inventory, shop | `core/data-driven-design.md` |
+| **Use-Case Prototype** | Use-Case First | Rapid validation | Game jam, core-mechanic testing | `core/prototype-design.md` |
 
-### Mixing Paradigms
+### Mixing (most projects mix)
+1. **Macro consistency** — all modules follow one Module Management Framework.
+2. **Domain for core entities & rules** — combat actors, damage formulas, AI decisions.
+3. **Data for content, flow & state** — quests, tutorials, inventory, narrative.
+4. **Hybrid** — entities-as-data; data-driven flow + domain rules per step; separate layers only
+   when edit-time and runtime truly diverge (bake/compile bridge).
+5. **Interchangeable** — Actor hierarchy (DDD) ↔ ECS components+systems (data-driven); Buff
+   objects (DDD) ↔ Tag+Effect entries (data-driven).
+6. **Integration** — the Application Layer bridges paradigms.
 
-Most projects mix paradigms:
-1.  **Macro Consistency**: All modules follow the same Module Management Framework.
-2.  **Domain for Core Entities & Rules**: Use DDD for systems with high rule complexity, rich domain concepts, and many distinct entities (e.g., Combat Actors, Damage Formulas, AI Decision).
-3.  **Data for Content, Flow & State**: Use Data-Driven for expandable content (Quests, Level Design), flow orchestration (Tutorial, Skill Execution, Narrative), and simple data management (Inventory, Shop).
-4.  **Hybrid Paradigms**:
-    - 4.1 **Entities as Data**: Domain Entities naturally hold both data (fields) and behavior (methods). Design entities to be serialization-friendly (use IDs, keep state as plain fields) so they serve both roles without a separate data layer.
-    - 4.2 **Flow + Domain**: Use data-driven flow to orchestrate the sequence/pipeline, domain logic to handle rules at each step. E.g., Skill System: flow drives cast→channel→apply, domain handles damage calc and buff interactions.
-    - 4.3 **Separate Data/Domain Layers**: Only when edit-time and runtime representations truly diverge. Use a Bake/Compile step to bridge them. E.g., visual node-graph editors, compiled assets.
-5.  **Paradigm Interchangeability**: Many systems can be validly implemented with either paradigm. E.g., Actor inheritance hierarchy (Domain) ↔ ECS components + systems (Data-Driven); Buff objects with encapsulated rules (Domain) ↔ Tag + Effect data entries resolved by a generic pipeline (Data-Driven). See **Selection Criteria** table above for trade-off signals.
-6.  **Integration**: Application Layer bridges different paradigms.
-
-### Selection Criteria
-
-When both DDD and Data-Driven fit, use these signals:
-
+### Selection signals
 | Signal | Favor DDD | Favor Data-Driven |
 |--------|-----------|-------------------|
-| Entity interactions | Complex multi-entity rules (attacker × defender × buffs × environment) | Mostly CRUD + display, few cross-entity rules |
-| Behavior source | Varies by entity type, hard to express as pure data | Driven by config tables, designer-authored content |
-| Change frequency | Rules change with game balance iterations | Content/flow changes far more often than logic |
-| Performance profile | Acceptable overhead for rich object graphs | Needs batch processing, cache-friendly layouts |
-| Networking | Stateful objects acceptable | Flat state snapshots preferred (sync, rollback) |
-| Team workflow | Programmers own the logic | Designers need to iterate without code changes |
-
----
+| Entity interactions | Complex multi-entity rules | Mostly CRUD + display |
+| Behavior source | Varies by type, hard as data | Config tables, designer content |
+| Change frequency | Rules change with balance | Content/flow changes more often |
+| Performance | Rich object graphs OK | Needs batch, cache-friendly |
+| Networking | Stateful objects OK | Flat snapshots (sync, rollback) |
+| Team workflow | Programmers own logic | Designers iterate without code |

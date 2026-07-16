@@ -21,9 +21,11 @@ pre-production GAT deliberately stopped before: **making the design real in Godo
 
 - **Design-grounded.** Read `design/gdd/<system>.md` + `design/content/<system>-data.md` before
   coding. If the design is ambiguous, clarify — don't improvise gameplay.
-- **Architecture-grounded.** Consult `knowledge/architecture/*` for the system you're building
-  (paradigm choice, system-skill / system-action-combat / system-ui / system-pcg, evolution &
-  extensibility). Pick DDD vs data-driven deliberately and state the split.
+- **Architecture-grounded.** Consult this game's active index `.gat/architecture.md` (universal
+  `core/` + the `modules/` this game activated) for the system you're building — paradigm choice,
+  `modules/system-skill` / `system-action-combat` / `system-ui` / `system-pcg`, evolution &
+  extensibility. Pick DDD vs data-driven deliberately and state the split. Add a missing module
+  with `tools/arch_init.py --add`.
 - **Change-tolerant.** Isolate modules (EventBus, id lookups, DTO copies), keep content in data,
   logic in code, art registered — so requirement changes stay contained
   (`architecture/evolution.md`).
