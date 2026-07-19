@@ -2,6 +2,15 @@
 
 All notable changes to GAT are documented here.
 
+## [Unreleased]
+
+### Changed
+- **Discoverability** — added GitHub topics (`godot-agent`, `game-agent`, `godot-engine`,
+  `gdscript`, `game-design`, `ai-game-development`, `multi-agent`, `autonomous-agent`,
+  `agentic-ai`) and a bilingual keyword footer in the README, so the project surfaces under
+  searches like "godot agent", "game agent godot", and "游戏制作智能体". Repo description now
+  leads with "Godot game-development agent / 游戏制作智能体".
+
 ## [0.1.0] — 2026-07-16
 
 First public release. Unifies four projects into one full-cycle Godot game-dev agent.

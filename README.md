@@ -214,3 +214,15 @@ cd /path/to/my-game       # 然后运行 /gat-workflow-start
 [`game-skill-vfx`](https://github.com/chenhangcuisg-code/game-skill-vfx)（FLUX/AnimateDiff/SDXL 特效）、
 Hastur Operation Plugin（Godot 编辑器操控）与 `game-unpack` 的参考学习经验。完整署名见
 [`LICENSING.md`](LICENSING.md)。
+
+---
+
+<div align="center">
+<sub>
+
+**Keywords** — Godot agent · game agent · Godot AI agent · game-making agent · AI game development · autonomous game developer · game-dev automation · multi-agent game studio · GDScript agent · Godot game generator · Claude Code agent · Codex agent · style-locked asset generation · self-evolving agent · text-to-game
+
+**关键词** — 游戏制作智能体 · 游戏开发智能体 · Godot 智能体 · Godot 游戏开发 agent · AI 做游戏 · 自动做游戏 · 一句话生成游戏 · 游戏 AI agent · 多智能体游戏工作室 · GDScript 智能体 · 风格锁定出图 · 自进化 agent
+
+</sub>
+</div>
